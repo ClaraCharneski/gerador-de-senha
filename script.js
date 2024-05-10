@@ -9,28 +9,32 @@ const botoes = document.querySelectorAll('.parametro-senha__botao');
 const campoSenha = document.querySelector('#campo-senha');
 const checkbox = document.querySelectorAll('.checkbox');
 const forcaSenha = document.querySelector('.forca');
-const valorEntropia = document.querySelector('.entropia');
-valorEntropia.textContent = "Um computador pode levar até " + Math.floor(2**entropia/(100e6*60*60*24))+ " dias para descobrir essa senha.";
 
-
-console.log(botoes)
 botoes[0].onclick = diminuiTamanho;
 botoes[1].onclick = aumentaTamanho;
 
-function diminuiTamanho(){
-    if (tamanhoSenha > 1){
+function diminuiTamanho() {
+    if (tamanhoSenha > 1) {
+        // tamanhoSenha = tamanhoSenha-1;
         tamanhoSenha--;
     }
     numeroSenha.textContent = tamanhoSenha;
     geraSenha();
 }
-function aumentaTamanho(){
-    if (tamanhoSenha < 20){
-       tamanhoSenha++;
+function aumentaTamanho() {
+    if (tamanhoSenha < 20) {
+        // tamanhoSenha = tamanhoSenha+1;
+        tamanhoSenha++;
     }
     numeroSenha.textContent = tamanhoSenha;
     geraSenha();
 }
+
+for (i = 0; i < checkbox.length; i++) {
+    checkbox[i].onclick = geraSenha;
+}
+
+geraSenha();
 
 function geraSenha() {
     let alfabeto = '';
@@ -57,18 +61,19 @@ function geraSenha() {
 
 }
 
-
 function classificaSenha(tamanhoAlfabeto){
-    let entropia = tamanhoSenha * Math.log2(tamanhoSenha);
+    let entropia = tamanhoSenha * Math.log2(tamanhoAlfabeto);
     console.log(entropia);
     forcaSenha.classList.remove('fraca','media','forte');
     if (entropia > 57){
         forcaSenha.classList.add('forte');
-    } else if (entropia > 35 && entropia < 57) {
+    } else if (entropia > 35 && entropia < 57 ) {
         forcaSenha.classList.add('media');
     } else if (entropia <= 35){
         forcaSenha.classList.add('fraca');
     }
+    const valorEntropia = document.querySelector('.entropia');
+    valorEntropia.textContent = "Um computador pode levar até " + Math.floor(2**entropia/(100e6*60*60*24)) + " dias para descobrir essa senha.";
 }
 
 
